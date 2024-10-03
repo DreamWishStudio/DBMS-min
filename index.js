@@ -15,38 +15,42 @@ mongoose.connect('mongodb://localhost:27017/Database', {
     useUnifiedTopology: true
 }).then(() => {
     console.log("Connected to Database");
-    console.log("localhost://3000");
+    console.log("http://localhost:3000");
 }).catch((err) => {
     console.log("Error in Connecting to Database", err);
 });
 
 const userSchema = new mongoose.Schema({
-    name: String,
+    first_name: String,
+    last_name: String,
+    dob: Number,
     age: Number,
     email: String,
     phno: String,
     gender: String,
-    password: String
+    Reg_No: String
 });
 
 const User = mongoose.model('User', userSchema);
 
 app.post("/sign_up", async (req, res) => {
-    const { name, age, email, phno, gender, password } = req.body;
+    const { first_name,last_name,dob, age, email, phno, gender, Reg_No } = req.body;
 
     const data = new User({
-        name,
+        first_name,
+        last_name,
+        dob,
         age,
         email,
         phno,
         gender,
-        password
-    });
+        Reg_No
+      });
 
     try {
         await data.save();
         console.log("Record Inserted Successfully");
-        return res.redirect('signup_successful.html');
+        return res.redirect('com.html');
     } catch (err) {
         console.error("Error in Inserting Record:", err);
         res.status(500).send("Error in signing up");
